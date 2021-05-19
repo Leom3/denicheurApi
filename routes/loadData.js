@@ -37,8 +37,8 @@ function getMedias(itemData, availableMedias, allMedias) {
 }
 
 function getCategories(itemData, text) {
-  if (text.match(/\[[\d\w\-\#\s\€]+\]/ig)) {
-    var textData = text.match(/\[[\d\w\-\#\s\€]+\]/ig);
+  if (text.match(/\[.*\]/ig)) {
+    var textData = text.match(/\[.*\]/ig);
     text = text.replace(textData, "")
     textData = String(textData[0]).replace("[", "").replace("]", "");
     var categories = textData.split("-");
@@ -49,6 +49,7 @@ function getCategories(itemData, text) {
     return (itemData);
   }
   else {
+
     return (null);
   }
 }
@@ -70,6 +71,7 @@ router.get('/', function(req, res, next) {
     var itemData = {};
     bodyData.data.forEach(element => {
       if (element.attachments) {
+        console.log(element);
         itemData = {'id' : element.id};
         itemData = getMedias(itemData, element.attachments.media_keys, medias);
         itemData = getCategories(itemData, element.text);
